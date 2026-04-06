@@ -1,6 +1,7 @@
 class Solution {
 public:
     bool isToeplitzMatrix(vector<vector<int>>& matrix) {
+        // Protita value er tar diagonal er value check kortesi 
         int m= matrix.size();
         int n= matrix[0].size();
         for(int i=0;i<m;i++){
