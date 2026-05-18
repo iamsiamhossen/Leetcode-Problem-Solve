@@ -1,26 +1,28 @@
 class Solution {
 public:
     string reverseWords(string s) {
-            stringstream ss(s);
-    vector<string> arr;
-    string temp;
-    string word;
-    while (ss >> word)
-    {
-        arr.push_back(word);
-    }
-    reverse(arr.begin(), arr.end());
-    int x1=0;
-    for(auto &x : arr)    {
-        x1++;
-        if(x1==arr.size()){
-            temp += x;
+        string result = "";
+        int i = s.size() - 1;
+
+        while(i >= 0){
+            // Step 1: Trailing space skip koro
+            while(i >= 0 && s[i] == ' ') i--;
+
+            // Step 2: Word er end paisi, ekhon word khujbo
+            int j = i;
+            while(j >= 0 && s[j] != ' ') j--;
+
+            // Step 3: Word ta add koro
+            // j+1 theke i porjonto word ache
+            if(i >= 0){
+                if(result != "") result += " ";
+                result += s.substr(j + 1, i - j);
+            }
+
+            // Step 4: Next word er jonno
+            i = j;
         }
-        else{
-            temp += x + " ";
-        }
-        
-    }
-    return temp;
+
+        return result;
     }
 };
