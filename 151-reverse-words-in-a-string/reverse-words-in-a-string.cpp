@@ -1,28 +1,37 @@
 class Solution {
 public:
     string reverseWords(string s) {
-        string result = "";
-        int i = s.size() - 1;
+        
+        // Step 1: পুরো string reverse
+        reverse(s.begin(), s.end());
 
-        while(i >= 0){
-            // Step 1: Trailing space skip koro
-            while(i >= 0 && s[i] == ' ') i--;
-
-            // Step 2: Word er end paisi, ekhon word khujbo
-            int j = i;
-            while(j >= 0 && s[j] != ' ') j--;
-
-            // Step 3: Word ta add koro
-            // j+1 theke i porjonto word ache
-            if(i >= 0){
-                if(result != "") result += " ";
-                result += s.substr(j + 1, i - j);
+        // Step 2: প্রতিটা word reverse
+        int start = 0;
+        for(int i = 0; i <= s.size(); i++){
+            if(i == s.size() || s[i] == ' '){
+                reverse(s.begin() + start, s.begin() + i);
+                start = i + 1;
             }
-
-            // Step 4: Next word er jonno
-            i = j;
         }
 
-        return result;
+        // Step 3: Extra spaces remove
+        int i = 0, j = 0;
+        while(j < s.size()){
+            // space skip koro
+            while(j < s.size() && s[j] == ' ') j++;
+            
+            // word copy koro
+            while(j < s.size() && s[j] != ' '){
+                s[i++] = s[j++];
+            }
+            
+            // word er পরে একটা space দাও
+            if(j < s.size()) s[i++] = ' ';
+        }
+
+        // trailing space remove
+        if(i > 0 && s[i-1] == ' ') i--;
+        
+        return s.substr(0, i);
     }
 };
