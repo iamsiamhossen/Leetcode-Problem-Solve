@@ -10,23 +10,16 @@ public:
         }
         int leftm=0,rightm=0,maxpresum=prefix[n-1];
         // For Ind0
-        int leftmost= 0;
-        int rightmost= maxpresum-nums[0];
-        if(leftmost==rightmost){
-            int ans=0;
-            return ans;
-        }
-        int l=0;
-        for(int i=1;i<n;i++){
-            leftm= (maxpresum-nums[i])-prefix[l];
-            rightm= prefix[l];
-            if(leftm==rightm){
-                return i;
-            }
-            else{
-                l++;
-            }
-        }
+        
+           for(int i=0;i<n;i++)
+{
+    int leftSum = (i == 0 ? 0 : prefix[i-1]);
+    int rightSum = prefix[n-1] - prefix[i];
+
+    if(leftSum == rightSum)
+        return i;
+}
+        
 
 return -1;
     }
