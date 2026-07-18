@@ -1,38 +1,52 @@
 class Solution {
 public:
     string minWindow(string s, string t) {
-        
-        unordered_map<char,int> need;
-        for(auto u:t){
-            need[u]++;
+
+        vector<int> need(128, 0);
+        vector<int> window(128, 0);
+
+        // Build need array
+        int required = 0;
+        for (char c : t) {
+            if (need[c] == 0)
+                required++;
+            need[c]++;
         }
-        unordered_map<char,int> window;
-        int form = 0;
-        int ans = INT_MAX;
-        int start=0;
-        int left =0;
-        for(int right=0;right<s.size();right++){
-            char ch= s[right];
+
+        int formed = 0;
+        int left = 0;
+
+        int minLen = INT_MAX;
+        int start = 0;
+
+        for (int right = 0; right < s.size(); right++) {
+
+            char ch = s[right];
             window[ch]++;
-            if(need.count(ch) and window[ch]==need[ch]){
-                form++;
-            }
-            while(form==need.size()){
-                int tmp = ans;
-                ans= min(right-left+1,ans);
-                if(ans<tmp){
+
+            // Requirement for this character just satisfied
+            if (need[ch] > 0 && window[ch] == need[ch])
+                formed++;
+
+            while (formed == required) {
+
+                if (right - left + 1 < minLen) {
+                    minLen = right - left + 1;
                     start = left;
                 }
-                window[s[left]]--;
-                if(need.count(s[left]) and window[s[left]]<need[s[left]]){
-                    form--;
-                }
+
+                char leftChar = s[left];
+                window[leftChar]--;
+
+                // Requirement broken
+                if (need[leftChar] > 0 &&
+                    window[leftChar] < need[leftChar])
+                    formed--;
+
                 left++;
             }
         }
-        if(ans==INT_MAX){
-            return "";
-        }
-        return s.substr(start,ans);
+
+        return (minLen == INT_MAX) ? "" : s.substr(start, minLen);
     }
 };
