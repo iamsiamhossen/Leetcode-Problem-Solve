@@ -1,26 +1,18 @@
 class Solution {
 public:
-    int pivotIndex(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> prefix(n);
-        prefix[0] = nums[0];
-        for(int i = 1; i < n; i++)
+    int pivotIndex(vector<int>& a) {
+        int n = a.size();
+        int total = accumulate(a.begin(), a.end(), 0);
+    int index = -1, right = 0;
+    for (int i = n - 1; i >= 0; i--)
+    {
+        int x = right + a[i];
+        if (right == total - x)
         {
-            prefix[i] = prefix[i - 1] + nums[i];
+            index = i;
         }
-        int leftm=0,rightm=0,maxpresum=prefix[n-1];
-        // For Ind0
-        
-           for(int i=0;i<n;i++)
-{
-    int leftSum = (i == 0 ? 0 : prefix[i-1]);
-    int rightSum = prefix[n-1] - prefix[i];
-
-    if(leftSum == rightSum)
-        return i;
-}
-        
-
-return -1;
+        right += a[i];
+    }
+return index;
     }
 };
